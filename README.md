@@ -4,7 +4,7 @@
 
 > Roberto y Sergio
 
-*ToDo*
+### To-Do
 - Traducción ✅
 - Implementación de funciones x5
 - Documentación
