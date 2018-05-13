@@ -10,7 +10,7 @@
 - Documentación
 
 <br>
-<img src="IMG_4232" width="1008" height="756">
+<img src="IMG_4232.jpg" width="1008" height="756">
 
 
 <br>
