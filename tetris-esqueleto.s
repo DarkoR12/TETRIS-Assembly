@@ -282,6 +282,33 @@ B7_1:
 	addiu	$sp, $sp, 4
 	jr $ra
 
+
+comrobar_linea:     
+
+	la	$s0, campo		# $s0 = campo
+	lw	$s1, 0($s0)  		# $s1 = campo->ancho
+	lw	$s2, 4($s0)  		# $s2 = campo->alto
+        
+        # for (Int y = 0; y < campo->alto; i++)
+        li	$s3, 0			# y = 0
+B8_1:   bge	$s3, B8_4		# si no se cumple el bucle, salta a B8_1
+        
+        # for (Int x = 0; x < campo->ancho; i++)
+        li	$s4, 0			# x = 0
+B8_2:   bge	$s4, B8_3		# si no se cumple el bucle, salta a B8_2
+	
+	move 	$a0, $s0
+	move	$a1, $s4
+	move	$a2, $s3
+	jal	imagen_get_pixel	# imagen_get_pixel($a0, $a1, $a2) = (img, x, y)	
+        
+        # }
+B8_3:
+
+        
+        # }        
+B8_4        
+        
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
