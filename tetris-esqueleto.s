@@ -216,9 +216,32 @@ B0_2:	lw	$s5, 0($sp)
      	jr $ra
      	
      	
-game_over:
+game_over:				# CONTINUAR
 
-	lb	$t0, acabar_partida 	# CONTINUAR
+	lb	$t0, acabar_partida 	
+	
+	# if ($t0 == 1) print ( 'GAME OVER' )
+	beqz 	$t0, B7_01		# Salta el bucle si no ha acabado la partida
+	
+	la	$a0, pantalla
+	la	$a1, end0	
+	li	$a2, 0
+	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, end1	
+	li	$a2, 0
+	li	$a3, 5
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, end2	
+	li	$a2, 0
+	li	$a3, 6
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+B7_01:	
+	jr $ra
 
         
 imagen_init:

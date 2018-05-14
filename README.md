@@ -6,7 +6,7 @@
 
 ### To-Do
 - Traducción ✅
-- Implementación de funciones x5
+- Implementación de funciones
 
     - Puntuación ✅
     - Game Over ♻️
