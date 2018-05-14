@@ -119,7 +119,18 @@ end3:
 end4:
     	.asciiz     "|  tecla!      |"
 end5:
-    	.asciiz     "+--------------+"   	    	
+    	.asciiz     "+--------------+"   	
+sig0:
+	.asciiz     "+--------+"
+sig1:    
+	.asciiz     "|        |"
+sig2:
+	.asciiz     "|        |"
+sig3:
+	.asciiz     "|        |"
+sig4:
+	.asciiz     "+--------+"
+
 
 
 	.text	
@@ -283,6 +294,10 @@ B7_1:
 	jr $ra
 
 
+<<<<<<< HEAD
+
+        
+=======
 comprobar_linea:  
 	addiu	$sp, $sp, -24
 	sw	$ra, 20($sp)
@@ -328,6 +343,7 @@ B8_4:	lw	$s4, 0($sp)
 	lw	$ra, 20($sp)
 	addiu	$sp, $sp, 24	
      	jr 	$ra     
+>>>>>>> 613d5a138752a6a694da3620273edf76fee3f3d3
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
@@ -716,6 +732,8 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	game_over
 	
+	jal 	pieza_siguiente
+	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
 	
@@ -751,7 +769,46 @@ nueva_pieza_actual:
 	addiu	$sp, $sp, 4
 	jr	$ra
 	
-
+pieza_siguiente:
+	addiu	$sp, $sp, -4
+	sw	$ra, 0($sp)
+		
+	la	$a0, pantalla
+	la	$a1, sig0	
+	li	$a2, 16
+	li	$a3, 0
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig1	
+	li	$a2, 16
+	li	$a3, 1
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig2	
+	li	$a2, 16
+	li	$a3, 2
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig3
+	li	$a2, 16
+	li	$a3, 3
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig4
+	li	$a2, 16
+	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	jal 	clear_screen
+	la	$a0, pantalla
+	jal 	imagen_print
+	lw	$ra, 0($sp)
+	addiu	$sp, $sp, 4
+	jr $ra
 probar_pieza:				# ($a0, $a1, $a2) = (pieza, x, y)
 	addiu	$sp, $sp, -32
 	sw	$ra, 28($sp)
@@ -1018,7 +1075,7 @@ jugar_partida:
 	sw	$s1, 4($sp)
 	sw	$s0, 0($sp)
 	la	$a0, pantalla
-	li	$a1, 20
+	li	$a1, 28
 	li	$a2, 22
 	li	$a3, 32
 	jal	imagen_init		# imagen_init(pantalla, 20, 22, ' ')
