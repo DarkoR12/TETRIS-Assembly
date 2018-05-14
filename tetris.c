@@ -268,6 +268,8 @@ void imagenDibujaCadena(*img, cadena, x, y) {
     
 }
 
+
+
 int main(int argc, char* argv[]) {
   while (true) {
     clear_screen();

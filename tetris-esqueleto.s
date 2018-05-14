@@ -107,7 +107,13 @@ str001:
 str002:
 	.asciiz		"\nOpción incorrecta. Pulse cualquier tecla para seguir.\n"
 str003:
-    .asciiz     "Puntuacion: \n"
+    	.asciiz     "Puntuacion: \n"
+end0:
+    	.asciiz     "-------------\n"
+end1:
+    	.asciiz     "  GAME OVER  \n"
+end2:
+    	.asciiz     "-------------\n"   	    	
 
 
 	.text	
@@ -208,6 +214,11 @@ B0_2:	lw	$s5, 0($sp)
 	lw	$ra, 24($sp)
 	addiu	$sp, $sp, 28	
      	jr $ra
+     	
+     	
+game_over:
+
+	lb	$t0, acabar_partida 	# CONTINUAR
 
         
 imagen_init:
