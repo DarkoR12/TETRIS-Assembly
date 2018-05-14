@@ -7,6 +7,13 @@
 ### To-Do
 - Traducción ✅
 - Implementación de funciones x5
+
+    - Puntuación ✅
+    - Game Over ♻️
+    - Función 3
+    - Eliminar filas (y sumar puntuación)
+    - Previsualización de la siguiente pieza
+    
 - Documentación
 
 <br>

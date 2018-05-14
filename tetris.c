@@ -263,12 +263,14 @@ void jugar_partida(void) {
   }
 }
 
-void imagenDibujaCadena(*img, cadena, x, y) {
+void imagenDibujaCadena(*img, cadena, x, y) {   // Terminada
     
     
 }
 
-
+void gameOver() {                               // Continuar
+    
+}
 
 int main(int argc, char* argv[]) {
   while (true) {
