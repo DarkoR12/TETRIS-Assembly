@@ -10,7 +10,7 @@
 
     - Puntuación ✅
     - Game Over ✅
-    - Sumar 10 puntos al completar una línea ♻️
+    - Sumar 10 puntos al completar una línea ✅
     - Eliminar filas ♻️
     - Previsualización de la siguiente pieza
     
