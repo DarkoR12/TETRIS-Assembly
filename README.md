@@ -10,8 +10,8 @@
 
     - Puntuación ✅
     - Game Over ♻️
-    - Función 3
-    - Eliminar filas (y sumar puntuación)
+    - Sumar 10 puntos al completar una línea
+    - Eliminar filas
     - Previsualización de la siguiente pieza
     
 - Documentación
