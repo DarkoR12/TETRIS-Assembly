@@ -268,9 +268,23 @@ void imagenDibujaCadena(*img, cadena, x, y) {   // Terminada
     
 }
 
-void gameOver() {                               // Continuar
+void gameOver() {                               // Terminada
     
 }
+
+void elimina_linea(int y) {
+    int n = y-1
+    for( y; y<=0; y-- ) {
+        for( int x = 0; x < campo->ancho; x++ ) {
+            imagengetpixel(
+        }
+        
+        
+        
+        
+    }
+}
+
 
 int main(int argc, char* argv[]) {
   while (true) {
