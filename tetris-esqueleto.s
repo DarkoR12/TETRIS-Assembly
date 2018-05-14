@@ -300,10 +300,21 @@ B8_2:   bge	$s4, B8_3		# si no se cumple el bucle, salta a B8_2
 	move 	$a0, $s0
 	move	$a1, $s4
 	move	$a2, $s3
-	jal	imagen_get_pixel	# imagen_get_pixel($a0, $a1, $a2) = (img, x, y)	
+	jal	imagen_get_pixel	# imagen_get_pixel($a0, $a1, $a2) = (img, x, y)
+	beqz 	$v0, B8_3		# si el pixel es '0' salta a B8_3
+	addi	$s4, $s4, 1			# x++
+	# if (x == campo->ancho) { puntuación ++, eliminar_fila}
+	blt 	$s4, $s1, B8:5		# si no se cumple el if, continúa
+	lw	$t0, puntuacion_actual
+	addi	$t0, $t0, 10
+	sw	$t0, puntuacion_actual
+	
+	# }
+B8_5:	j	B8_2			
         
         # }
 B8_3:
+	addi	$s4, $s4, 1			# y++
 
         
         # }        
