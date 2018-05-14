@@ -119,7 +119,18 @@ end3:
 end4:
     	.asciiz     "|  tecla!      |"
 end5:
-    	.asciiz     "+--------------+"   	    	
+    	.asciiz     "+--------------+"   	
+sig0:
+	.asciiz     "+--------+"
+sig1:    
+	.asciiz     "|        |"
+sig2:
+	.asciiz     "|        |"
+sig3:
+	.asciiz     "|        |"
+sig4:
+	.asciiz     "+--------+"
+
 
 
 	.text	
@@ -283,42 +294,7 @@ B7_1:
 	jr $ra
 
 
-comrobar_linea:     
 
-	la	$s0, campo		# $s0 = campo
-	lw	$s1, 0($s0)  		# $s1 = campo->ancho
-	lw	$s2, 4($s0)  		# $s2 = campo->alto
-        
-        # for (Int y = 0; y < campo->alto; i++)
-        li	$s3, 0			# y = 0
-B8_1:   bge	$s3, B8_4		# si no se cumple el bucle, salta a B8_1
-        
-        # for (Int x = 0; x < campo->ancho; i++)
-        li	$s4, 0			# x = 0
-B8_2:   bge	$s4, B8_3		# si no se cumple el bucle, salta a B8_2
-	
-	move 	$a0, $s0
-	move	$a1, $s4
-	move	$a2, $s3
-	jal	imagen_get_pixel	# imagen_get_pixel($a0, $a1, $a2) = (img, x, y)
-	beqz 	$v0, B8_3		# si el pixel es '0' salta a B8_3
-	addi	$s4, $s4, 1			# x++
-	# if (x == campo->ancho) { puntuación ++, eliminar_fila}
-	blt 	$s4, $s1, B8:5		# si no se cumple el if, continúa
-	lw	$t0, puntuacion_actual
-	addi	$t0, $t0, 10
-	sw	$t0, puntuacion_actual
-	
-	# }
-B8_5:	j	B8_2			
-        
-        # }
-B8_3:
-	addi	$s4, $s4, 1			# y++
-
-        
-        # }        
-B8_4        
         
         
 imagen_init:
@@ -708,6 +684,8 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	game_over
 	
+	jal 	pieza_siguiente
+	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
 	lw	$s1, 0($sp)
@@ -742,7 +720,46 @@ nueva_pieza_actual:
 	addiu	$sp, $sp, 4
 	jr	$ra
 	
-
+pieza_siguiente:
+	addiu	$sp, $sp, -4
+	sw	$ra, 0($sp)
+		
+	la	$a0, pantalla
+	la	$a1, sig0	
+	li	$a2, 16
+	li	$a3, 0
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig1	
+	li	$a2, 16
+	li	$a3, 1
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig2	
+	li	$a2, 16
+	li	$a3, 2
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig3
+	li	$a2, 16
+	li	$a3, 3
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig4
+	li	$a2, 16
+	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	jal 	clear_screen
+	la	$a0, pantalla
+	jal 	imagen_print
+	lw	$ra, 0($sp)
+	addiu	$sp, $sp, 4
+	jr $ra
 probar_pieza:				# ($a0, $a1, $a2) = (pieza, x, y)
 	addiu	$sp, $sp, -32
 	sw	$ra, 28($sp)
@@ -1006,7 +1023,7 @@ jugar_partida:
 	sw	$s1, 4($sp)
 	sw	$s0, 0($sp)
 	la	$a0, pantalla
-	li	$a1, 20
+	li	$a1, 28
 	li	$a2, 22
 	li	$a3, 32
 	jal	imagen_init		# imagen_init(pantalla, 20, 22, ' ')
