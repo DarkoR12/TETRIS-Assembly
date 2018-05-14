@@ -109,11 +109,11 @@ str002:
 str003:
     	.asciiz     "Puntuacion: \n"
 end0:
-    	.asciiz     "-------------\n"
+    	.asciiz     "+--------------+"
 end1:
-    	.asciiz     "  GAME OVER  \n"
+    	.asciiz     "|  GAME  OVER  |"
 end2:
-    	.asciiz     "-------------\n"   	    	
+    	.asciiz     "+--------------+"   	    	
 
 
 	.text	
@@ -216,31 +216,42 @@ B0_2:	lw	$s5, 0($sp)
      	jr $ra
      	
      	
-game_over:				# CONTINUAR
-
-	lb	$t0, acabar_partida 	
+game_over:	
+	# if (probar_pieza == 0) print ( 'GAME OVER' )
+	addiu	$sp, $sp, -4
+	sw	$ra, 0($sp)
 	
-	# if ($t0 == 1) print ( 'GAME OVER' )
-	beqz 	$t0, B7_01		# Salta el bucle si no ha acabado la partida
-	
+	la	$a0, pieza_actual
+	li	$a1, 8
+	li	$a2, 0				
+	jal	probar_pieza		# probar_pieza(Imagen* pieza, int x, int y)
+	bnez 	$v0, B7_1		# salta el bucle si probar_pieza == 1
+		
 	la	$a0, pantalla
 	la	$a1, end0	
 	li	$a2, 0
-	li	$a3, 4
+	li	$a3, 6
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end1	
 	li	$a2, 0
-	li	$a3, 5
+	li	$a3, 7
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end2	
 	li	$a2, 0
-	li	$a3, 6
+	li	$a3, 8
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
-B7_01:	
+	
+	# jal 	clear_screen
+	# la	$a0, pantalla
+	
+	
+B7_1:	
+	lw	$ra, 0($sp)
+	addiu	$sp, $sp, 4
 	jr $ra
 
         
@@ -629,9 +640,7 @@ B10_6:	la	$a0, pantalla
 	li	$a3, 0
 	jal 	imagen_dibuja_cadena
 	
-	
-	
-	
+	jal 	game_over
 	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
