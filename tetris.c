@@ -273,15 +273,21 @@ void gameOver() {                               // Terminada
 }
 
 void elimina_linea(int y) {
-    int n = y-1
-    for( y; y<=0; y-- ) {
-        for( int x = 0; x < campo->ancho; x++ ) {
-            imagengetpixel(
+
+    for( y; y>=0; y-- ) {
+        int n = y-1
+        
+        if (n < 0) {
+            for( int x = 0; x < campo->ancho; x++ ) {
+                imagen_set_pixel(Imagen *img, int x, int y, '0')
+            }
         }
-        
-        
-        
-        
+        else {
+            for( int x = 0; x < campo->ancho; x++ ) {
+                pixel p = imagen_get_pixel(Imagen *img, int x, int n);
+                imagen_set_pixel(Imagen *img, int x, int y, Pixel p)
+            }
+        }
     }
 }
 

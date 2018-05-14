@@ -287,10 +287,10 @@ comprobar_linea:
 	addiu	$sp, $sp, -24
 	sw	$ra, 20($sp)
 	sw	$s0, 16($sp)		
-	sw	$s1, 12($sp)		#5 - fin bucle x
-	sw	$s2, 8($sp)		#1 - bucle y 
-	sw	$s3, 4($sp)		#4 - fin bucle y
-	sw	$s4, 0($sp)  		#2 - bucle x
+	sw	$s1, 12($sp)	
+	sw	$s2, 8($sp)	
+	sw	$s3, 4($sp)	
+	sw	$s4, 0($sp)  		
 
 	la	$s0, campo		# $s0 = campo
 	lw	$s1, 0($s0)  		# $s1 = campo->ancho
@@ -315,7 +315,8 @@ B8_2:   bge	$s4, $s1, B8_5		# si no se cumple el bucle, salta a B8_3
 B8_5:	lw	$t0, puntuacion_actual
 	addi	$t0, $t0, 10
 	sw	$t0, puntuacion_actual
-	# LLAMAR A elminar_fila ($a0 = y)	
+	move	$a0, $s3
+	jal eliminar_linea	
 B8_3:
 	addi	$s3, $s3, 1		# y++
 	j	B8_1
@@ -328,6 +329,91 @@ B8_4:	lw	$s4, 0($sp)
 	lw	$ra, 20($sp)
 	addiu	$sp, $sp, 24	
      	jr 	$ra     
+     	
+     	
+eliminar_linea:
+	# void elimina_linea(int y) {
+    	# for( y; y>=0; y-- ) {
+        # 	int n = y-1
+        # 	if (n < 0) {
+        #     		for( int x = 0; x < campo->ancho; x++ ) {
+        #         		imagen_set_pixel(Imagen *img, int x, int y, '0')
+        #     		}
+        # 	}
+        # 	else {
+        #     		for( int x = 0; x < campo->ancho; x++ ) {
+        #         		Pixel p = imagen_get_pixel(Imagen *img, int x, int n);
+        #         		imagen_set_pixel(Imagen *img, int x, int y, Pixel p)
+        #     		}
+        # 	}
+    	# }
+	# }    
+	addiu	$sp, $sp, -24
+	sw	$ra, 20($sp)
+	sw	$s0, 16($sp)		
+	sw	$s1, 12($sp)	
+	sw	$s2, 8($sp)	
+	sw	$s3, 4($sp)	
+	sw	$s4, 0($sp)
+	
+	
+	move 	$s0, $a0		# $s0 = y
+	la	$s4, campo		# $s4 = campo
+	lw	$s3, 0($s4)	 	# $s3 = campo->ancho
+	
+	# for( y; y>=0; y-- ) {
+B9_5:	bltz 	$s0, B9_fin 	 	# si no se cumple la condición sale del bucle
+	subi	$s1, $s0, 1		# n = y - 1
+	
+	# if (n < 0)
+	bgez	$s1, B9_2 	 	# si n >= 0 salta a B9_2			 	 	 	 	 	 	
+     	
+     	li 	$s2, 0			# x = 0
+     	
+     	# for( int x = 0; x < campo->ancho; x++ ) {
+B9_4:   bge 	$s2, $s3, B9_3
+     	move 	$a0, $s4
+     	move	$a1, $s2
+     	move	$a2, $s0
+     	li	$a3, 0
+     	jal 	imagen_set_pixel
+     	addi	$s2, $s2, 1		 	
+   	j	B9_4
+B9_3:	# }
+	j	B9_1
+B9_2:	# }
+  	# else
+	li 	$s2, 0			# x = 0
+     	# for( int x = 0; x < campo->ancho; x++ ) {
+     	#   Pixel p = imagen_get_pixel(Imagen *img, int x, int n);
+        #   imagen_set_pixel(Imagen *img, int x, int y, Pixel p)
+B9_6:   bge 	$s2, $s3, B9_1	
+     	move 	$a0, $s4
+     	move	$a1, $s2
+     	move	$a2, $s1
+     	jal 	imagen_get_pixel
+     	
+   	move 	$a0, $s4
+   	move	$a1, $s2
+   	move	$a2, $s0
+   	move 	$a3, $v0
+   	jal 	imagen_set_pixel
+   	addi	$s2, $s2, 1
+   	j	B9_6
+     	
+B9_1:  	subi	$s0, $s0, 1
+	j	B9_5
+
+B9_fin:	lw	$s4, 0($sp)
+	lw	$s3, 4($sp)
+	lw	$s2, 8($sp)
+	lw 	$s1, 12($sp)
+	lw	$s0, 16($sp)
+	lw	$ra, 20($sp)
+	addiu	$sp, $sp, 24	
+     	jr 	$ra
+
+   	   	
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
