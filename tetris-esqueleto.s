@@ -730,6 +730,8 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	pieza_siguiente
 	
+	jal 	clear_screen
+	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
 	
