@@ -294,10 +294,7 @@ B7_1:
 	jr $ra
 
 
-<<<<<<< HEAD
 
-        
-=======
 comprobar_linea:  
 	addiu	$sp, $sp, -24
 	sw	$ra, 20($sp)
@@ -343,7 +340,6 @@ B8_4:	lw	$s4, 0($sp)
 	lw	$ra, 20($sp)
 	addiu	$sp, $sp, 24	
      	jr 	$ra     
->>>>>>> 613d5a138752a6a694da3620273edf76fee3f3d3
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
