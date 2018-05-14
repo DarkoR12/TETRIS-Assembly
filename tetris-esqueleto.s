@@ -283,7 +283,14 @@ B7_1:
 	jr $ra
 
 
-comrobar_linea:     
+comprobar_linea:  
+	addiu	$sp, $sp, -24
+	sw	$ra, 20($sp)
+	sw	$s0, 16($sp)		
+	sw	$s1, 12($sp)		#5 - fin bucle x
+	sw	$s2, 8($sp)		#1 - bucle y 
+	sw	$s3, 4($sp)		#4 - fin bucle y
+	sw	$s4, 0($sp)  		#2 - bucle x
 
 	la	$s0, campo		# $s0 = campo
 	lw	$s1, 0($s0)  		# $s1 = campo->ancho
@@ -291,35 +298,36 @@ comrobar_linea:
         
         # for (Int y = 0; y < campo->alto; i++)
         li	$s3, 0			# y = 0
-B8_1:   bge	$s3, B8_4		# si no se cumple el bucle, salta a B8_1
+B8_1:   bge	$s3, $s2, B8_4		# si no se cumple el bucle, salta a B8_4
         
         # for (Int x = 0; x < campo->ancho; i++)
         li	$s4, 0			# x = 0
-B8_2:   bge	$s4, B8_3		# si no se cumple el bucle, salta a B8_2
+B8_2:   bge	$s4, $s1, B8_5		# si no se cumple el bucle, salta a B8_3
 	
 	move 	$a0, $s0
 	move	$a1, $s4
 	move	$a2, $s3
 	jal	imagen_get_pixel	# imagen_get_pixel($a0, $a1, $a2) = (img, x, y)
 	beqz 	$v0, B8_3		# si el pixel es '0' salta a B8_3
-	addi	$s4, $s4, 1			# x++
-	# if (x == campo->ancho) { puntuación ++, eliminar_fila}
-	blt 	$s4, $s1, B8:5		# si no se cumple el if, continúa
-	lw	$t0, puntuacion_actual
+	addi	$s4, $s4, 1		# x++
+	j 	B8_2
+	
+B8_5:	lw	$t0, puntuacion_actual
 	addi	$t0, $t0, 10
 	sw	$t0, puntuacion_actual
-	
-	# }
-B8_5:	j	B8_2			
-        
-        # }
+	# LLAMAR A elminar_fila ($a0 = y)	
 B8_3:
-	addi	$s4, $s4, 1			# y++
-
-        
+	addi	$s3, $s3, 1		# y++
+	j	B8_1
         # }        
-B8_4        
-        
+B8_4:	lw	$s4, 0($sp)
+	lw	$s3, 4($sp)
+	lw	$s2, 8($sp)
+	lw 	$s1, 12($sp)
+	lw	$s0, 16($sp)
+	lw	$ra, 20($sp)
+	addiu	$sp, $sp, 24	
+     	jr 	$ra     
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
@@ -710,6 +718,7 @@ B10_6:	la	$a0, pantalla
 	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
+	
 	lw	$s1, 0($sp)
 	lw	$s2, 4($sp)
 	lw	$ra, 8($sp)
@@ -870,6 +879,9 @@ bajar_pieza_actual:
 	lw	$a2, pieza_actual_x
 	lw	$a3, pieza_actual_y
 	jal 	imagen_dibuja_imagen
+	
+	jal	comprobar_linea
+	
 	jal	nueva_pieza_actual
 	
 	lw	$t9, puntuacion_actual
