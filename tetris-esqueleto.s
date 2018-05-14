@@ -113,6 +113,12 @@ end0:
 end1:
     	.asciiz     "|  GAME  OVER  |"
 end2:
+    	.asciiz     "|              |"
+end3:
+    	.asciiz     "|  Pulsa  una  |"
+end4:
+    	.asciiz     "|  tecla!      |"
+end5:
     	.asciiz     "+--------------+"   	    	
 
 
@@ -245,8 +251,30 @@ game_over:
 	li	$a3, 8
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
-	# jal 	clear_screen
-	# la	$a0, pantalla
+	la	$a0, pantalla
+	la	$a1, end3	
+	li	$a2, 0
+	li	$a3, 9
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, end4	
+	li	$a2, 0
+	li	$a3, 10
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, end5	
+	li	$a2, 0
+	li	$a3, 11
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	jal 	clear_screen
+	la	$a0, pantalla
+	jal 	imagen_print
+	jal 	read_character
+	li 	$t0, 1
+	sb 	$t0, acabar_partida
 	
 	
 B7_1:	
