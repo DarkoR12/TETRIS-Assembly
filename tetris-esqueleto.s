@@ -23,6 +23,10 @@ pieza_actual:
 	.word	0
 	.word	0
 	.space	1024
+pieza_next:
+	.word   0
+	.word   0
+	.space  1024
 
 pieza_actual_x:
 	.word 0
@@ -814,6 +818,12 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	pieza_siguiente
 	
+	la	$a0, pantalla
+	la	$a1, pieza_next
+	li	$a2, 18
+	li	$a3, 1
+	jal	imagen_dibuja_imagen
+	
 	jal 	clear_screen
 	
 	la	$a0, pantalla
@@ -835,7 +845,6 @@ nueva_pieza_actual:
 	
 	addiu	$sp, $sp, -4		
 	sw	$ra, 0($sp)
-	
 	jal 	pieza_aleatoria		# $v0 == Imagen *elegida
 	
 	la	$a0, pieza_actual	# Cargamos la dirección de pieza_actual en $a0 para llamar a imagen_copy
@@ -854,7 +863,13 @@ nueva_pieza_actual:
 pieza_siguiente:
 	addiu	$sp, $sp, -4
 	sw	$ra, 0($sp)
+	
 		
+	jal	pieza_aleatoria
+	la	$a0, pieza_next
+	move	$a1, $v0
+	jal	imagen_copy
+							
 	la	$a0, pantalla
 	la	$a1, sig0	
 	li	$a2, 16
