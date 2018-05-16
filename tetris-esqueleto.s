@@ -1216,6 +1216,9 @@ B23_2:	jal	clear_screen		# clear_screen()
 	jal	read_character		# char opc = read_character()
 	beq	$v0, '2', B23_1		# if (opc == '2') salir
 	bne	$v0, '1', B23_5		# if (opc != '1') mostrar error
+	lw	$t0, puntuacion_actual
+	li	$t0, 0
+	sw	$t0, puntuacion_actual
 	jal	jugar_partida		# jugar_partida()
 	j	B23_2
 B23_1:	la	$a0, str001
