@@ -822,15 +822,6 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	game_over
 	
-	jal 	pieza_siguiente
-	
-	la	$a0, pantalla
-	la	$a1, pieza_next
-	li	$a2, 19
-	li	$a3, 3
-	jal	imagen_dibuja_imagen
-	
-	jal 	clear_screen
 	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
@@ -849,12 +840,28 @@ nueva_pieza_actual:
   	#    pieza_actual_y = 0;
 	# }
 	
-	addiu	$sp, $sp, -4		
-	sw	$ra, 0($sp)
+	addiu	$sp, $sp, -8		
+	sw	$ra, 4($sp)
+	sw	$s0, 0($sp)
 	jal 	pieza_aleatoria		# $v0 == Imagen *elegida
 	
+	move	$s0, $v0
+	
+	la	$a0, pieza_next
+	move	$a1, $v0
+	jal	imagen_copy
+	
+	la	$a0, pantalla
+	la	$a1, pieza_next
+	li	$a2, 19
+	li	$a3, 3
+	jal	imagen_dibuja_imagen
+	
+	
+	
+	
 	la	$a0, pieza_actual	# Cargamos la dirección de pieza_actual en $a0 para llamar a imagen_copy
-	move 	$a1, $v0		# Cargamos *elegida en $a1 para llamar a imagen_copy
+	move 	$a1, $s0		# Cargamos *elegida en $a1 para llamar a imagen_copy
 	jal	imagen_copy		
 	
 	li	$t0, 8
@@ -862,11 +869,64 @@ nueva_pieza_actual:
 	li	$t1, 0
 	sw 	$t1, pieza_actual_y	# pieza_actual_y = 0;
 	
-	lw	$ra, 0($sp)
-	addiu	$sp, $sp, 4
+	la	$a0, pantalla
+	la	$a1, sig0	
+	li	$a2, 16
+	li	$a3, 0
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig1	
+	li	$a2, 16
+	li	$a3, 1
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig2	
+	li	$a2, 16
+	li	$a3, 2
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig3
+	li	$a2, 16
+	li	$a3, 3
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig4
+	li	$a2, 16
+	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig5
+	li	$a2, 16
+	li	$a3, 5
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig6
+	li	$a2, 16
+	li	$a3, 6
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+
+	la	$a0, pantalla
+	la	$a1, sig7
+	li	$a2, 16
+	li	$a3, 7
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	jal 	clear_screen
+	la	$a0, pantalla
+	jal 	imagen_print
+	
+	lw	$s0, 0($sp)
+	lw	$ra, 4($sp)
+	addiu	$sp, $sp, 8
 	jr	$ra
 	
-pieza_siguiente:
+pieza_siguiente:	#esta funcion se va al pozo en cuanto terminemos	
 	addiu	$sp, $sp, -4
 	sw	$ra, 0($sp)
 	
@@ -917,7 +977,7 @@ pieza_siguiente:
 	li	$a2, 16
 	li	$a3, 6
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
-	S
+
 	la	$a0, pantalla
 	la	$a1, sig7
 	li	$a2, 16
