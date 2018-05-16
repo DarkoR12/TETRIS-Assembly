@@ -14,11 +14,7 @@
     - Eliminar filas ✅
     - Previsualización de la siguiente pieza ✅
     
-- Documentación ♻️
-
-<br>
-
-![Funciones](IMG_4233.jpg)
+- Informe ✅
 
 <br>
 <br>
