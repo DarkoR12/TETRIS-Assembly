@@ -23,6 +23,10 @@ pieza_actual:
 	.word	0
 	.word	0
 	.space	1024
+pieza_next:
+	.word   0
+	.word   0
+	.space  1024
 
 pieza_actual_x:
 	.word 0
@@ -119,7 +123,18 @@ end3:
 end4:
     	.asciiz     "|  tecla!      |"
 end5:
-    	.asciiz     "+--------------+"   	    	
+    	.asciiz     "+--------------+"   	
+sig0:
+	.asciiz     "+--------+"
+sig1:    
+	.asciiz     "|        |"
+sig2:
+	.asciiz     "|        |"
+sig3:
+	.asciiz     "|        |"
+sig4:
+	.asciiz     "+--------+"
+
 
 
 	.text	
@@ -236,37 +251,37 @@ game_over:
 	la	$a0, pantalla
 	la	$a1, end0	
 	li	$a2, 0
-	li	$a3, 6
+	li	$a3, 7
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end1	
 	li	$a2, 0
-	li	$a3, 7
+	li	$a3, 8
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end2	
 	li	$a2, 0
-	li	$a3, 8
+	li	$a3, 9
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end3	
 	li	$a2, 0
-	li	$a3, 9
+	li	$a3, 10
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end4	
 	li	$a2, 0
-	li	$a3, 10
+	li	$a3, 11
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end5	
 	li	$a2, 0
-	li	$a3, 11
+	li	$a3, 12
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	jal 	clear_screen
@@ -283,14 +298,15 @@ B7_1:
 	jr $ra
 
 
+
 comprobar_linea:  
 	addiu	$sp, $sp, -24
 	sw	$ra, 20($sp)
 	sw	$s0, 16($sp)		
-	sw	$s1, 12($sp)	
-	sw	$s2, 8($sp)	
-	sw	$s3, 4($sp)	
-	sw	$s4, 0($sp)  		
+	sw	$s1, 12($sp)		#5 - fin bucle x
+	sw	$s2, 8($sp)		#1 - bucle y 
+	sw	$s3, 4($sp)		#4 - fin bucle y
+	sw	$s4, 0($sp)  		#2 - bucle x
 
 	la	$s0, campo		# $s0 = campo
 	lw	$s1, 0($s0)  		# $s1 = campo->ancho
@@ -412,8 +428,6 @@ B9_fin:	lw	$s4, 0($sp)
 	lw	$ra, 20($sp)
 	addiu	$sp, $sp, 24	
      	jr 	$ra
-
-   	   	
         
 imagen_init:
 	# void imagen_init(Imagen *img, int ancho, int alto, Pixel fondo) {
@@ -802,6 +816,16 @@ B10_6:	la	$a0, pantalla
 	
 	jal 	game_over
 	
+	jal 	pieza_siguiente
+	
+	la	$a0, pantalla
+	la	$a1, pieza_next
+	li	$a2, 18
+	li	$a3, 1
+	jal	imagen_dibuja_imagen
+	
+	jal 	clear_screen
+	
 	la	$a0, pantalla
 	jal	imagen_print		# imagen_print(pantalla)
 	
@@ -821,7 +845,6 @@ nueva_pieza_actual:
 	
 	addiu	$sp, $sp, -4		
 	sw	$ra, 0($sp)
-	
 	jal 	pieza_aleatoria		# $v0 == Imagen *elegida
 	
 	la	$a0, pieza_actual	# Cargamos la dirección de pieza_actual en $a0 para llamar a imagen_copy
@@ -837,7 +860,52 @@ nueva_pieza_actual:
 	addiu	$sp, $sp, 4
 	jr	$ra
 	
-
+pieza_siguiente:
+	addiu	$sp, $sp, -4
+	sw	$ra, 0($sp)
+	
+		
+	jal	pieza_aleatoria
+	la	$a0, pieza_next
+	move	$a1, $v0
+	jal	imagen_copy
+							
+	la	$a0, pantalla
+	la	$a1, sig0	
+	li	$a2, 16
+	li	$a3, 0
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig1	
+	li	$a2, 16
+	li	$a3, 1
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig2	
+	li	$a2, 16
+	li	$a3, 2
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig3
+	li	$a2, 16
+	li	$a3, 3
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig4
+	li	$a2, 16
+	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	jal 	clear_screen
+	la	$a0, pantalla
+	jal 	imagen_print
+	lw	$ra, 0($sp)
+	addiu	$sp, $sp, 4
+	jr $ra
 probar_pieza:				# ($a0, $a1, $a2) = (pieza, x, y)
 	addiu	$sp, $sp, -32
 	sw	$ra, 28($sp)
@@ -1104,7 +1172,7 @@ jugar_partida:
 	sw	$s1, 4($sp)
 	sw	$s0, 0($sp)
 	la	$a0, pantalla
-	li	$a1, 20
+	li	$a1, 28
 	li	$a2, 22
 	li	$a3, 32
 	jal	imagen_init		# imagen_init(pantalla, 20, 22, ' ')
@@ -1148,6 +1216,9 @@ B23_2:	jal	clear_screen		# clear_screen()
 	jal	read_character		# char opc = read_character()
 	beq	$v0, '2', B23_1		# if (opc == '2') salir
 	bne	$v0, '1', B23_5		# if (opc != '1') mostrar error
+	lw	$t0, puntuacion_actual
+	li	$t0, 0
+	sw	$t0, puntuacion_actual
 	jal	jugar_partida		# jugar_partida()
 	j	B23_2
 B23_1:	la	$a0, str001
