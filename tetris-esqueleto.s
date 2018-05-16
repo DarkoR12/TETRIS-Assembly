@@ -251,37 +251,37 @@ game_over:
 	la	$a0, pantalla
 	la	$a1, end0	
 	li	$a2, 0
-	li	$a3, 6
+	li	$a3, 7
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end1	
 	li	$a2, 0
-	li	$a3, 7
+	li	$a3, 8
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end2	
 	li	$a2, 0
-	li	$a3, 8
+	li	$a3, 9
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end3	
 	li	$a2, 0
-	li	$a3, 9
+	li	$a3, 10
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end4	
 	li	$a2, 0
-	li	$a3, 10
+	li	$a3, 11
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	la	$a0, pantalla
 	la	$a1, end5	
 	li	$a2, 0
-	li	$a3, 11
+	li	$a3, 12
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	jal 	clear_screen
