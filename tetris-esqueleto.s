@@ -127,12 +127,18 @@ end5:
 sig0:
 	.asciiz     "+--------+"
 sig1:    
-	.asciiz     "|        |"
+	.asciiz     "|  NEXT  |"
 sig2:
-	.asciiz     "|        |"
+	.asciiz     "+--------+"
 sig3:
 	.asciiz     "|        |"
 sig4:
+	.asciiz     "|        |"
+sig5:
+	.asciiz     "|        |"
+sig6:
+	.asciiz     "|        |"
+sig7:
 	.asciiz     "+--------+"
 
 
@@ -820,8 +826,8 @@ B10_6:	la	$a0, pantalla
 	
 	la	$a0, pantalla
 	la	$a1, pieza_next
-	li	$a2, 18
-	li	$a3, 1
+	li	$a2, 19
+	li	$a3, 3
 	jal	imagen_dibuja_imagen
 	
 	jal 	clear_screen
@@ -898,6 +904,24 @@ pieza_siguiente:
 	la	$a1, sig4
 	li	$a2, 16
 	li	$a3, 4
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig5
+	li	$a2, 16
+	li	$a3, 5
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	
+	la	$a0, pantalla
+	la	$a1, sig6
+	li	$a2, 16
+	li	$a3, 6
+	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
+	S
+	la	$a0, pantalla
+	la	$a1, sig7
+	li	$a2, 16
+	li	$a3, 7
 	jal	imagen_dibuja_cadena	# imagenDibujaCadena(*img, cadena, x, y)
 	
 	jal 	clear_screen
