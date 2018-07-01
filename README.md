@@ -1,8 +1,8 @@
 # Tetris
 
-## Proyecto de ETC
+## Proyecto de Estructura y Tecnología de los Computadores (1º curso)
 
-> Roberto y Sergio
+>  Roberto y Sergio
 
 ### To-Do
 - Traducción ✅
