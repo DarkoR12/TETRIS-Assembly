@@ -1,24 +1,18 @@
 # Tetris
 
-## Proyecto de Estructura y Tecnología de los Computadores (1º curso)
+## Proyecto de Estructura y Tecnología de los Computadores (2017/18)
 
 >  Roberto y Sergio
 
 ### To-Do
-- Traducción ✅
+- Traducción
 - Implementación de funciones
 
-    - Puntuación ✅
-    - Game Over ✅
-    - Sumar 10 puntos al completar una línea ✅
-    - Eliminar filas ✅
-    - Previsualización de la siguiente pieza ✅
+    - Puntuación
+    - Game Over
+    - Sumar 10 puntos al completar una línea
+    - Eliminar filas
+    - Previsualización de la siguiente pieza
     
-- Informe ✅
-
-<br>
-<br>
-<img src="http://uy.emedemujer.com/wp-content/uploads/sites/4/2017/04/cube-1678974_1920.png" width="640" height="336">
-
-
+- Informe
 
